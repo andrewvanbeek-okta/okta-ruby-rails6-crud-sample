@@ -17,12 +17,38 @@ Clone this application to your local hard drive using Git.
 git clone https://github.com/oktadeveloper/okta-ruby-rails6-crud-sample.git
 ```
 
-Install this example's dependencies, create the database, and run the migrations:
+Install this example's dependencies, create the database, and run the migrations, also add webpacker just in case there are inconsitencies in your enviroment:
 
 ```
 bundle install
-bundle install
+bundle exec figaro install
+yarn add @rails/webpacker
+```
+
+Before going futher make sure you add a placeholder in your config/application.yml
+
+
+```
+OKTA_CLIENT_ID: "okta client id"
+
+OKTA_CLIENT_SECRET: "okta client secret"
+
+OKTA_ORG: "dev-1234" // your org so this is usually something like dev-{some random number or guid} or the name of your company like acme, it is usally right before your domain of okta or okta or oktapreview
+OKTA_DOMAIN: "okta" //your org so this usually something like dev-{some random number or guid} or the name of your company like, it is usally right before your domain of okta or okta or oktapreview
+
+OKTA_URL: "your okta url"
+
+OKTA_ISSUER: "your okta oauth server issuer" // go to API > Authorization Servers to find your Issuer
+
+OKTA_AUTH_SERVER_ID: "default" //typically default unless you created a custom oauth server, then it is the id after /oauth2/ in your issuer
+
+OKTA_REDIRECT_URI: "http://localhost:3000/users/auth/oktaoauth/callback"
+```
+
+Install this example's dependencies, create the database, and run the migrations:
+```
 rake db:create
+rake db:migrate
 ```
 
 ### Use Okta for Identity
@@ -40,6 +66,25 @@ On the Create New Application page, select **Web**. Name your app `Ionic Social`
 * Click **Done**
 
 For the extra Crud steps follow the blog to add a custom attribute of "gemstone", [help link](https://help.okta.com/en/prod/Content/Topics/users-groups-profiles/usgp-add-custom-attributes.htm) .
+
+Now go back to your rails application and modify your application.yml file.
+
+```
+OKTA_CLIENT_ID: "okta client id"
+
+OKTA_CLIENT_SECRET: "okta client secret"
+
+OKTA_ORG: "dev-1234" // your org so this is usually something like dev-{some random number or guid} or the name of your company like acme, it is usally right before your domain of okta or okta or oktapreview
+OKTA_DOMAIN: "okta" //your org so this usually something like dev-{some random number or guid} or the name of your company like, it is usally right before your domain of okta or okta or oktapreview
+
+OKTA_URL: "your okta url"
+
+OKTA_ISSUER: "your okta oauth server issuer" // go to API > Authorization Servers to find your Issuer
+
+OKTA_AUTH_SERVER_ID: "default" //typically default unless you created a custom oauth server, then it is the id after /oauth2/ in your issuer
+
+OKTA_REDIRECT_URI: "http://localhost:3000/users/auth/oktaoauth/callback"
+```
 
 Run `rails s` and open `http://localhost:3000` in a new incognito window. Click **Sign in with Okta** to sign in to your Okta developer account.
 
